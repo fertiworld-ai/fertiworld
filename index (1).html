@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0f766e">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FertiWorld AI</title>
+<style>
+:root{--bg:#f5f9f8;--card:#fff;--ink:#16302b;--mute:#5d7570;--brand:#0f766e;--soft:#d8efeb;--line:#d5e3e0;--warn:#fff4dc;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1a18;--card:#162623;--ink:#e6f2ef;--mute:#9bb5b0;--brand:#2dd4bf;--soft:#173b36;--line:#27413d;--warn:#3a3016}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0 auto;background:var(--bg);color:var(--ink);font-family:system-ui,"Noto Sans Devanagari","Noto Sans Arabic",sans-serif;line-height:1.55;max-width:480px;padding-bottom:84px}
+header{padding:18px 18px 6px}
+h1{font-size:22px;margin:0}
+.sub{color:var(--mute);font-size:14px;margin:2px 0 0}
+section{display:none;padding:8px 18px}
+section.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:10px 0}
+.card h3{margin:0 0 4px;font-size:16px}
+.card p{margin:0;font-size:14px;color:var(--mute)}
+button{font:inherit;background:var(--brand);color:#fff;border:0;border-radius:10px;padding:10px 14px;margin-top:10px;cursor:pointer}
+button.alt{background:var(--soft);color:var(--ink)}
+.note{background:var(--warn);border-radius:10px;padding:10px 12px;font-size:13px;margin:10px 0}
+nav{position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;display:flex;background:var(--card);border-top:1px solid var(--line);padding:6px 0 calc(6px + env(safe-area-inset-bottom,0px))}
+nav button{flex:1;background:none;color:var(--mute);margin:0;padding:8px 2px;font-size:12px;border-radius:0}
+nav button.on{color:var(--brand);font-weight:700}
+input,select{font:inherit;width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);margin-top:6px}
+.lang{margin-top:10px}
+.res{margin-top:10px;font-size:14px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+</style>
+</head>
+<body>
+<header>
+<h1>FertiWorld AI</h1><p class="sub" data-t="tag"></p>
+<select id="lang" class="lang" aria-label="Language" onchange="manual=true;setLang(this.value)">
+
+</select>
+<div id="fb" class="note" style="margin:8px 0 0;display:none">Translation in review · अनुवाद जाँच में है. Showing English for now.</div>
+</header>
+
+<section id="login" class="on"><div class="card"><h3 data-t="lt"></h3>
+<button onclick="googleLogin()" data-t="lg"></button>
+<div id="lerr" class="res"></div>
+<div class="note" data-t="lpr"></div></div></section>
+
+<section id="home">
+<div class="note" data-t="demo"></div>
+<div class="card"><h3 data-t="hr"></h3><p data-t="hrp"></p><button onclick="go('report')" data-t="start"></button></div>
+<div class="card"><h3 data-t="hm"></h3><p data-t="hmp"></p><button class="alt" onclick="go('male')" data-t="view"></button></div>
+<div class="card"><h3 data-t="hf"></h3><p data-t="hfp"></p><button class="alt" onclick="go('female')" data-t="view"></button></div>
+<div class="card"><h3 data-t="hd"></h3><p data-t="hdp"></p><button class="alt" onclick="go('docs')" data-t="view"></button></div>
+</section>
+
+<section id="report"><div class="card"><h3 data-t="rt"></h3>
+<label><span data-t="rc"></span><input id="conc" type="number"></label>
+<label><span data-t="rm"></span><input id="mot" type="number"></label>
+<button onclick="explain()" data-t="explain"></button><div id="out" class="res"></div></div></section>
+
+<section id="male">
+<div class="card"><h3 data-t="mt"></h3><p data-t="mp"></p></div>
+<div class="card"><h3 data-t="mn"></h3><p data-t="mnp"></p></div>
+</section>
+
+<section id="female"><div class="card"><h3 data-t="ft"></h3>
+<label><span data-t="fl"></span><input id="lmp" type="date"></label>
+<label><span data-t="fc"></span><select id="cyc"><option>26</option><option selected>28</option><option>30</option><option>32</option></select></label>
+<button onclick="cycle()" data-t="fb"></button><div id="cout" class="res"></div></div>
+<div class="card"><h3 data-t="fcm"></h3><p>PCOS · Endometriosis · Thyroid</p></div></section>
+
+<section id="docs">
+<div class="card"><h3 data-t="dt"></h3><p data-t="dp"></p></div>
+<div class="card"><div class="row"><div><h3>Dr. Sample A</h3><p data-t="s1"></p></div><button onclick="book(this)" data-t="book"></button></div></div>
+<div class="card"><div class="row"><div><h3>Dr. Sample B</h3><p data-t="s2"></p></div><button onclick="book(this)" data-t="book"></button></div></div>
+<div class="card"><div class="row"><div><h3>Dr. Sample C</h3><p data-t="s3"></p></div><button onclick="book(this)" data-t="book"></button></div></div>
+</section>
+
+<nav id="nav" style="display:none"><button class="on" data-t="n1" onclick="go('home')"></button><button data-t="n2" onclick="go('report')"></button><button data-t="n3" onclick="go('male')"></button><button data-t="n4" onclick="go('female')"></button><button data-t="n5" onclick="go('docs')"></button></nav>
+
+<script>
+var T={
+hi:{loc:'hi-IN',lt:'लॉगिन करें',lg:'Google से जारी रखें',lo:'या',lp:'फ़ोन नंबर (देश कोड के साथ)',ls:'OTP भेजें',lc:'OTP कोड डालें',lv:'पुष्टि करें',ld:'डेमो: कोड 123456 है।',lb:'नंबर या कोड सही नहीं है।',lpr:'आपका health data कभी बेचा नहीं जाएगा।',tag:'आपकी parenthood यात्रा यहाँ से शुरू',demo:'यह सिर्फ़ डेमो है। सारा data नकली है। असली इलाज के लिए डॉक्टर से मिलें।',hr:'रिपोर्ट समझें',hrp:'अपनी रिपोर्ट के आँकड़े डालें, आसान भाषा में समझें।',start:'शुरू करें',hm:'पुरुष स्वास्थ्य',hmp:'Sperm count, motility और जाँचों की जानकारी।',hf:'महिला स्वास्थ्य',hfp:'Cycle, ovulation, PCOS और AMH की जानकारी।',hd:'डॉक्टर खोजें',hdp:'शहर के हिसाब से fertility specialist।',view:'देखें',n1:'होम',n2:'रिपोर्ट',n3:'पुरुष',n4:'महिला',n5:'डॉक्टर',rt:'Semen रिपोर्ट समझाने वाला (डेमो)',rc:'Sperm concentration (million/ml)',rm:'Motility (%)',explain:'समझाएँ',need:'कम से कम एक आँकड़ा डालें।',cok:'Concentration सामान्य सीमा (लगभग 16 million/ml) के आसपास या ऊपर है।',clo:'Concentration सामान्य सीमा (लगभग 16 million/ml) से कम दिख रही है।',mok:'Motility सामान्य सीमा (लगभग 42%) के आसपास या ऊपर है।',mlo:'Motility सामान्य सीमा (लगभग 42%) से कम दिख रही है।',disc:'यह निदान नहीं है। जाँच दोबारा हो सकती है। कृपया fertility डॉक्टर से मिलें।',mt:'पुरुष fertility की मुख्य जाँचें',mp:'Semen analysis (count, motility, morphology), हार्मोन जाँच और ज़रूरत पर अल्ट्रासाउंड।',mn:'ध्यान रखें',mnp:'एक रिपोर्ट से कुछ तय नहीं होता। जाँच अक्सर दोबारा होती है और डॉक्टर पूरी तस्वीर देखते हैं।',ft:'Cycle ट्रैकर (डेमो)',fl:'आख़िरी period की तारीख़',fc:'Cycle कितने दिन का है',fb:'अनुमान देखें',pick:'तारीख़ चुनें।',ov:'अनुमानित ovulation',fe:'Fertile दिन',est:'यह सिर्फ़ मोटा अनुमान है।',fcm:'आम समस्याएँ',dt:'नमूना सूची (नकली नाम)',dp:'असली डॉक्टर बाद में verified होकर जुड़ेंगे।',s1:'Gynaecologist',s2:'Andrologist',s3:'IVF विशेषज्ञ',book:'बुक करें',booked:'डेमो: बुक हुआ ✓'},
+bn:{loc:'bn-IN',tag:'আপনার পিতৃত্ব-মাতৃত্বের যাত্রা এখান থেকে শুরু',demo:'এটি শুধু ডেমো। সব তথ্য নকল। আসল চিকিৎসার জন্য ডাক্তার দেখান।',hr:'আপনার রিপোর্ট বুঝুন',hrp:'রিপোর্টের মান লিখুন, সহজ ভাষায় ব্যাখ্যা পান।',start:'শুরু করুন',hm:'পুরুষের স্বাস্থ্য',hmp:'শুক্রাণুর সংখ্যা, গতিশীলতা ও পরীক্ষার তথ্য।',hf:'নারীর স্বাস্থ্য',hfp:'চক্র, ডিম্বস্ফুটন, PCOS ও AMH-এর তথ্য।',hd:'ডাক্তার খুঁজুন',hdp:'শহর অনুযায়ী ফার্টিলিটি বিশেষজ্ঞ।',view:'দেখুন',n1:'হোম',n2:'রিপোর্ট',n3:'পুরুষ',n4:'নারী',n5:'ডাক্তার',rt:'বীর্য রিপোর্ট ব্যাখ্যা (ডেমো)',rc:'শুক্রাণুর ঘনত্ব (মিলিয়ন/মিলি)',rm:'গতিশীলতা (%)',explain:'ব্যাখ্যা করুন',need:'অন্তত একটি মান লিখুন।',cok:'ঘনত্ব স্বাভাবিক সীমার (প্রায় ১৬ মিলিয়ন/মিলি) কাছাকাছি বা বেশি।',clo:'ঘনত্ব স্বাভাবিক সীমার (প্রায় ১৬ মিলিয়ন/মিলি) চেয়ে কম দেখাচ্ছে।',mok:'গতিশীলতা স্বাভাবিক সীমার (প্রায় ৪২%) কাছাকাছি বা বেশি।',mlo:'গতিশীলতা স্বাভাবিক সীমার (প্রায় ৪২%) চেয়ে কম দেখাচ্ছে।',disc:'এটি রোগ নির্ণয় নয়। পরীক্ষা প্রায়ই আবার করা হয়। অনুগ্রহ করে ফার্টিলিটি ডাক্তারের সঙ্গে কথা বলুন।',mt:'পুরুষের ফার্টিলিটির প্রধান পরীক্ষা',mp:'বীর্য বিশ্লেষণ (সংখ্যা, গতিশীলতা, আকৃতি), হরমোন পরীক্ষা এবং প্রয়োজনে আল্ট্রাসাউন্ড।',mn:'মনে রাখুন',mnp:'একটি রিপোর্ট দিয়ে কিছু ঠিক হয় না। পরীক্ষা প্রায়ই পুনরায় হয় এবং ডাক্তার সম্পূর্ণ চিত্র দেখেন।',ft:'চক্র ট্র্যাকার (ডেমো)',fl:'শেষ মাসিকের তারিখ',fc:'চক্রের দৈর্ঘ্য (দিন)',fb:'অনুমান দেখুন',pick:'একটি তারিখ বাছুন।',ov:'আনুমানিক ডিম্বস্ফুটন',fe:'উর্বর দিন',est:'এটি শুধু মোটামুটি অনুমান।',fcm:'সাধারণ সমস্যা',dt:'নমুনা তালিকা (নকল নাম)',dp:'আসল যাচাইকৃত ডাক্তাররা পরে যোগ দেবেন।',s1:'স্ত্রীরোগ বিশেষজ্ঞ',s2:'পুরুষ প্রজনন বিশেষজ্ঞ',s3:'IVF বিশেষজ্ঞ',book:'বুক করুন',booked:'ডেমো: বুক হয়েছে ✓',lt:'লগ ইন',lg:'Google দিয়ে চালিয়ে যান',lo:'অথবা',lp:'ফোন নম্বর (দেশের কোড সহ)',ls:'OTP পাঠান',lc:'OTP কোড লিখুন',lv:'যাচাই করুন',ld:'ডেমো: কোড ১২৩৪৫৬।',lb:'নম্বর বা কোড ঠিক নয়।',lpr:'আপনার স্বাস্থ্য তথ্য কখনও বিক্রি করা হবে না।'},
+ta:{loc:'ta-IN',tag:'உங்கள் பெற்றோர் பயணம் இங்கே தொடங்குகிறது',demo:'இது டெமோ மட்டுமே. எல்லா தரவும் போலியானது. உண்மையான சிகிச்சைக்கு மருத்துவரை அணுகவும்.',hr:'உங்கள் அறிக்கையைப் புரிந்துகொள்ளுங்கள்',hrp:'அறிக்கை மதிப்புகளை உள்ளிட்டு எளிய விளக்கம் பெறுங்கள்.',start:'தொடங்கு',hm:'ஆண்கள் ஆரோக்கியம்',hmp:'விந்தணு எண்ணிக்கை, இயக்கம், பரிசோதனைகள்.',hf:'பெண்கள் ஆரோக்கியம்',hfp:'மாதவிடாய் சுழற்சி, அண்டவிடுப்பு, PCOS, AMH தகவல்.',hd:'மருத்துவரைத் தேடுங்கள்',hdp:'நகரம் வாரியாக கருவுறுதல் நிபுணர்கள்.',view:'பார்',n1:'முகப்பு',n2:'அறிக்கை',n3:'ஆண்',n4:'பெண்',n5:'மருத்துவர்',rt:'விந்து அறிக்கை விளக்கம் (டெமோ)',rc:'விந்தணு அடர்த்தி (மில்லியன்/மிலி)',rm:'இயக்கம் (%)',explain:'விளக்கு',need:'குறைந்தது ஒரு மதிப்பை உள்ளிடவும்.',cok:'அடர்த்தி சாதாரண வரம்பை (சுமார் 16 மில்லியன்/மிலி) ஒட்டி அல்லது அதற்கு மேல் உள்ளது.',clo:'அடர்த்தி சாதாரண வரம்பை (சுமார் 16 மில்லியன்/மிலி) விடக் குறைவாகத் தெரிகிறது.',mok:'இயக்கம் சாதாரண வரம்பை (சுமார் 42%) ஒட்டி அல்லது அதற்கு மேல் உள்ளது.',mlo:'இயக்கம் சாதாரண வரம்பை (சுமார் 42%) விடக் குறைவாகத் தெரிகிறது.',disc:'இது நோய் கண்டறிதல் அல்ல. பரிசோதனைகள் பெரும்பாலும் மீண்டும் செய்யப்படும். தயவுசெய்து கருவுறுதல் மருத்துவரை அணுகவும்.',mt:'ஆண் கருவுறுதலின் முக்கிய பரிசோதனைகள்',mp:'விந்து பகுப்பாய்வு (எண்ணிக்கை, இயக்கம், வடிவம்), ஹார்மோன் பரிசோதனை, தேவைப்பட்டால் அல்ட்ராசவுண்ட்.',mn:'நினைவில் கொள்ளுங்கள்',mnp:'ஒரு அறிக்கையை வைத்து எதுவும் முடிவு செய்ய முடியாது. பரிசோதனைகள் மீண்டும் செய்யப்படும்; மருத்துவர் முழுப் படத்தையும் பார்ப்பார்.',ft:'சுழற்சி கண்காணிப்பு (டெமோ)',fl:'கடைசி மாதவிடாய் தேதி',fc:'சுழற்சி நீளம் (நாட்கள்)',fb:'மதிப்பீட்டைப் பார்',pick:'ஒரு தேதியைத் தேர்ந்தெடுக்கவும்.',ov:'மதிப்பிடப்பட்ட அண்டவிடுப்பு',fe:'கருவுறும் நாட்கள்',est:'இது தோராயமான மதிப்பீடு மட்டுமே.',fcm:'பொதுவான பிரச்சினைகள்',dt:'மாதிரிப் பட்டியல் (போலிப் பெயர்கள்)',dp:'உண்மையான சரிபார்க்கப்பட்ட மருத்துவர்கள் பின்னர் இணைவார்கள்.',s1:'மகப்பேறு மருத்துவர்',s2:'ஆண்மை மருத்துவர்',s3:'IVF நிபுணர்',book:'முன்பதிவு',booked:'டெமோ: முன்பதிவு ✓',lt:'உள்நுழை',lg:'Google மூலம் தொடரவும்',lo:'அல்லது',lp:'தொலைபேசி எண் (நாட்டு குறியீட்டுடன்)',ls:'OTP அனுப்பு',lc:'OTP குறியீட்டை உள்ளிடவும்',lv:'சரிபார்',ld:'டெமோ: குறியீடு 123456.',lb:'எண் அல்லது குறியீடு தவறு.',lpr:'உங்கள் சுகாதாரத் தரவு ஒருபோதும் விற்கப்படாது.'},
+pt:{loc:'pt-BR',tag:'A sua jornada para a parentalidade começa aqui',demo:'Isto é apenas uma demonstração. Todos os dados são falsos. Consulte um médico para tratamento real.',hr:'Entenda o seu exame',hrp:'Insira os valores do exame e receba uma explicação simples.',start:'Começar',hm:'Saúde masculina',hmp:'Contagem, motilidade e exames explicados.',hf:'Saúde feminina',hfp:'Ciclo, ovulação, SOP e AMH.',hd:'Encontrar médico',hdp:'Especialistas em fertilidade por cidade.',view:'Ver',n1:'Início',n2:'Exame',n3:'Homem',n4:'Mulher',n5:'Médicos',rt:'Explicador de espermograma (demo)',rc:'Concentração de espermatozoides (milhões/ml)',rm:'Motilidade (%)',explain:'Explicar',need:'Insira pelo menos um valor.',cok:'A concentração está próxima ou acima do limite de referência da OMS (cerca de 16 milhões/ml).',clo:'A concentração parece abaixo do limite de referência (cerca de 16 milhões/ml).',mok:'A motilidade está próxima ou acima do limite de referência (cerca de 42%).',mlo:'A motilidade parece abaixo do limite de referência (cerca de 42%).',disc:'Isto não é um diagnóstico. Os exames costumam ser repetidos. Consulte um especialista em fertilidade.',mt:'Principais exames de fertilidade masculina',mp:'Espermograma (contagem, motilidade, morfologia), exames hormonais e ultrassom, se necessário.',mn:'Tenha em mente',mnp:'Um único exame não decide nada. Os exames costumam ser repetidos e o médico avalia o conjunto.',ft:'Acompanhamento do ciclo (demo)',fl:'Data da última menstruação',fc:'Duração do ciclo (dias)',fb:'Ver estimativa',pick:'Escolha uma data.',ov:'Ovulação estimada',fe:'Dias férteis',est:'É apenas uma estimativa aproximada.',fcm:'Condições comuns',dt:'Lista de exemplo (nomes falsos)',dp:'Médicos reais verificados entrarão depois.',s1:'Ginecologista',s2:'Andrologista',s3:'Especialista em FIV',book:'Agendar',booked:'Demo: agendado ✓',lt:'Entrar',lg:'Continuar com o Google',lo:'ou',lp:'Número de telefone (com código do país)',ls:'Enviar código',lc:'Digite o código',lv:'Verificar',ld:'Demo: o código é 123456.',lb:'Número ou código incorreto.',lpr:'Os seus dados de saúde nunca serão vendidos.'},
+de:{loc:'de-DE',tag:'Ihr Weg zur Elternschaft beginnt hier',demo:'Dies ist nur eine Demo. Alle Daten sind erfunden. Bitte suchen Sie für eine echte Behandlung einen Arzt auf.',hr:'Befund verstehen',hrp:'Geben Sie Ihre Befundwerte ein und erhalten Sie eine einfache Erklärung.',start:'Starten',hm:'Männergesundheit',hmp:'Spermienzahl, Beweglichkeit und Untersuchungen erklärt.',hf:'Frauengesundheit',hfp:'Zyklus, Eisprung, PCOS und AMH.',hd:'Arzt finden',hdp:'Fertilitätsspezialisten nach Stadt.',view:'Ansehen',n1:'Start',n2:'Befund',n3:'Mann',n4:'Frau',n5:'Ärzte',rt:'Spermiogramm-Erklärer (Demo)',rc:'Spermienkonzentration (Mio./ml)',rm:'Beweglichkeit (%)',explain:'Erklären',need:'Geben Sie mindestens einen Wert ein.',cok:'Die Konzentration liegt nahe am oder über dem WHO-Referenzwert (etwa 16 Mio./ml).',clo:'Die Konzentration liegt scheinbar unter dem Referenzwert (etwa 16 Mio./ml).',mok:'Die Beweglichkeit liegt nahe am oder über dem Referenzwert (etwa 42 %).',mlo:'Die Beweglichkeit liegt scheinbar unter dem Referenzwert (etwa 42 %).',disc:'Dies ist keine Diagnose. Untersuchungen werden oft wiederholt. Bitte sprechen Sie mit einem Fertilitätsarzt.',mt:'Wichtige Untersuchungen der männlichen Fertilität',mp:'Spermiogramm (Zahl, Beweglichkeit, Form), Hormontests und bei Bedarf Ultraschall.',mn:'Bitte beachten',mnp:'Ein einzelner Befund entscheidet nichts. Untersuchungen werden oft wiederholt und der Arzt betrachtet das Gesamtbild.',ft:'Zyklus-Tracker (Demo)',fl:'Datum der letzten Periode',fc:'Zykluslänge (Tage)',fb:'Schätzung anzeigen',pick:'Bitte ein Datum wählen.',ov:'Voraussichtlicher Eisprung',fe:'Fruchtbare Tage',est:'Dies ist nur eine grobe Schätzung.',fcm:'Häufige Erkrankungen',dt:'Beispielliste (erfundene Namen)',dp:'Echte, geprüfte Ärzte kommen später hinzu.',s1:'Frauenarzt/-ärztin',s2:'Androloge/Andrologin',s3:'IVF-Spezialist/in',book:'Buchen',booked:'Demo: gebucht ✓',lt:'Anmelden',lg:'Weiter mit Google',lo:'oder',lp:'Telefonnummer (mit Landesvorwahl)',ls:'Code senden',lc:'Code eingeben',lv:'Bestätigen',ld:'Demo: Der Code ist 123456.',lb:'Nummer oder Code falsch.',lpr:'Ihre Gesundheitsdaten werden niemals verkauft.'},
+en:{loc:'en-US',lt:'Log in',lg:'Continue with Google',lo:'or',lp:'Phone number (with country code)',ls:'Send OTP',lc:'Enter OTP code',lv:'Verify',ld:'Demo: the code is 123456.',lb:'Wrong number or code.',lpr:'Your health data will never be sold.',tag:'Your parenthood journey starts here',demo:'This is a demo only. All data is fake. Please see a doctor for real treatment.',hr:'Understand your report',hrp:'Enter your report values and get a simple explanation.',start:'Start',hm:'Male health',hmp:'Sperm count, motility and tests explained.',hf:'Female health',hfp:'Cycle, ovulation, PCOS and AMH information.',hd:'Find a doctor',hdp:'Fertility specialists by city.',view:'View',n1:'Home',n2:'Report',n3:'Male',n4:'Female',n5:'Doctors',rt:'Semen report explainer (demo)',rc:'Sperm concentration (million/ml)',rm:'Motility (%)',explain:'Explain',need:'Enter at least one value.',cok:'Concentration is around or above the WHO reference limit (about 16 million/ml).',clo:'Concentration appears below the reference limit (about 16 million/ml).',mok:'Motility is around or above the reference limit (about 42%).',mlo:'Motility appears below the reference limit (about 42%).',disc:'This is not a diagnosis. Tests are often repeated. Please consult a fertility doctor.',mt:'Main male fertility tests',mp:'Semen analysis (count, motility, morphology), hormone tests and ultrasound if needed.',mn:'Keep in mind',mnp:'One report decides nothing. Tests are often repeated and a doctor looks at the full picture.',ft:'Cycle tracker (demo)',fl:'Date of last period',fc:'Cycle length (days)',fb:'See estimate',pick:'Pick a date.',ov:'Estimated ovulation',fe:'Fertile days',est:'This is only a rough estimate.',fcm:'Common conditions',dt:'Sample list (fake names)',dp:'Real verified doctors will join later.',s1:'Gynaecologist',s2:'Andrologist',s3:'IVF specialist',book:'Book',booked:'Demo: booked ✓'},
+es:{loc:'es-ES',lt:'Iniciar sesión',lg:'Continuar con Google',lo:'o',lp:'Número de teléfono (con prefijo)',ls:'Enviar código',lc:'Introduce el código',lv:'Verificar',ld:'Demo: el código es 123456.',lb:'Número o código incorrecto.',lpr:'Tus datos de salud nunca se venderán.',tag:'Tu camino hacia la paternidad empieza aquí',demo:'Esto es solo una demo. Todos los datos son falsos. Consulta a un médico para un tratamiento real.',hr:'Entiende tu informe',hrp:'Introduce los valores de tu informe y recibe una explicación sencilla.',start:'Empezar',hm:'Salud masculina',hmp:'Recuento, motilidad y pruebas explicadas.',hf:'Salud femenina',hfp:'Ciclo, ovulación, SOP y AMH.',hd:'Buscar médico',hdp:'Especialistas en fertilidad por ciudad.',view:'Ver',n1:'Inicio',n2:'Informe',n3:'Hombre',n4:'Mujer',n5:'Médicos',rt:'Explicador de seminograma (demo)',rc:'Concentración de espermatozoides (millones/ml)',rm:'Motilidad (%)',explain:'Explicar',need:'Introduce al menos un valor.',cok:'La concentración está cerca o por encima del límite de referencia de la OMS (unos 16 millones/ml).',clo:'La concentración parece inferior al límite de referencia (unos 16 millones/ml).',mok:'La motilidad está cerca o por encima del límite de referencia (unos 42 %).',mlo:'La motilidad parece inferior al límite de referencia (unos 42 %).',disc:'Esto no es un diagnóstico. Las pruebas suelen repetirse. Consulta a un especialista en fertilidad.',mt:'Principales pruebas de fertilidad masculina',mp:'Seminograma (recuento, motilidad, morfología), análisis hormonales y ecografía si es necesario.',mn:'Ten en cuenta',mnp:'Un solo informe no decide nada. Las pruebas se repiten y el médico valora el conjunto.',ft:'Calendario del ciclo (demo)',fl:'Fecha de la última regla',fc:'Duración del ciclo (días)',fb:'Ver estimación',pick:'Elige una fecha.',ov:'Ovulación estimada',fe:'Días fértiles',est:'Es solo una estimación aproximada.',fcm:'Afecciones frecuentes',dt:'Lista de ejemplo (nombres falsos)',dp:'Los médicos verificados reales se unirán después.',s1:'Ginecólogo/a',s2:'Andrólogo/a',s3:'Especialista en FIV',book:'Reservar',booked:'Demo: reservado ✓'},
+fr:{loc:'fr-FR',lt:'Se connecter',lg:'Continuer avec Google',lo:'ou',lp:'Numéro de téléphone (avec indicatif)',ls:'Envoyer le code',lc:'Saisissez le code',lv:'Vérifier',ld:'Démo : le code est 123456.',lb:'Numéro ou code incorrect.',lpr:'Vos données de santé ne seront jamais vendues.',tag:'Votre parcours vers la parentalité commence ici',demo:'Ceci est une démo. Toutes les données sont fictives. Consultez un médecin pour un vrai traitement.',hr:'Comprendre votre bilan',hrp:'Saisissez les valeurs de votre bilan pour une explication simple.',start:'Commencer',hm:'Santé masculine',hmp:'Numération, mobilité et examens expliqués.',hf:'Santé féminine',hfp:'Cycle, ovulation, SOPK et AMH.',hd:'Trouver un médecin',hdp:'Spécialistes de la fertilité par ville.',view:'Voir',n1:'Accueil',n2:'Bilan',n3:'Homme',n4:'Femme',n5:'Médecins',rt:'Explication du spermogramme (démo)',rc:'Concentration de spermatozoïdes (millions/ml)',rm:'Mobilité (%)',explain:'Expliquer',need:'Saisissez au moins une valeur.',cok:'La concentration est proche ou supérieure à la limite de référence de l’OMS (environ 16 millions/ml).',clo:'La concentration semble inférieure à la limite de référence (environ 16 millions/ml).',mok:'La mobilité est proche ou supérieure à la limite de référence (environ 42 %).',mlo:'La mobilité semble inférieure à la limite de référence (environ 42 %).',disc:'Ceci n’est pas un diagnostic. Les examens sont souvent répétés. Consultez un spécialiste de la fertilité.',mt:'Principaux examens de fertilité masculine',mp:'Spermogramme (numération, mobilité, morphologie), bilan hormonal et échographie si besoin.',mn:'À retenir',mnp:'Un seul résultat ne décide de rien. Les examens sont souvent répétés et le médecin voit l’ensemble.',ft:'Suivi du cycle (démo)',fl:'Date des dernières règles',fc:'Durée du cycle (jours)',fb:'Voir l’estimation',pick:'Choisissez une date.',ov:'Ovulation estimée',fe:'Jours fertiles',est:'Ce n’est qu’une estimation approximative.',fcm:'Problèmes courants',dt:'Liste d’exemple (noms fictifs)',dp:'De vrais médecins vérifiés rejoindront plus tard.',s1:'Gynécologue',s2:'Andrologue',s3:'Spécialiste FIV',book:'Réserver',booked:'Démo : réservé ✓'},
+ar:{loc:'ar',lt:'تسجيل الدخول',lg:'المتابعة عبر Google',lo:'أو',lp:'رقم الهاتف (مع رمز الدولة)',ls:'إرسال الرمز',lc:'أدخل الرمز',lv:'تحقق',ld:'تجريبي: الرمز هو 123456.',lb:'الرقم أو الرمز غير صحيح.',lpr:'لن يتم بيع بياناتك الصحية أبدًا.',tag:'رحلتك نحو الأبوة والأمومة تبدأ من هنا',demo:'هذه نسخة تجريبية فقط. كل البيانات وهمية. استشر طبيبًا للعلاج الحقيقي.',hr:'افهم تقريرك',hrp:'أدخل قيم تقريرك واحصل على شرح مبسط.',start:'ابدأ',hm:'صحة الرجل',hmp:'شرح عدد الحيوانات المنوية وحركتها والفحوصات.',hf:'صحة المرأة',hfp:'الدورة والإباضة وتكيس المبايض وAMH.',hd:'ابحث عن طبيب',hdp:'أخصائيو الخصوبة حسب المدينة.',view:'عرض',n1:'الرئيسية',n2:'التقرير',n3:'الرجل',n4:'المرأة',n5:'الأطباء',rt:'شرح تحليل السائل المنوي (تجريبي)',rc:'تركيز الحيوانات المنوية (مليون/مل)',rm:'الحركة (%)',explain:'اشرح',need:'أدخل قيمة واحدة على الأقل.',cok:'التركيز قريب من الحد المرجعي لمنظمة الصحة العالمية (نحو 16 مليون/مل) أو أعلى منه.',clo:'يبدو التركيز أقل من الحد المرجعي (نحو 16 مليون/مل).',mok:'الحركة قريبة من الحد المرجعي (نحو 42%) أو أعلى منه.',mlo:'تبدو الحركة أقل من الحد المرجعي (نحو 42%).',disc:'هذا ليس تشخيصًا. غالبًا تُعاد الفحوصات. يرجى استشارة طبيب خصوبة.',mt:'أهم فحوصات خصوبة الرجل',mp:'تحليل السائل المنوي (العدد والحركة والشكل) وفحوصات الهرمونات والسونار عند الحاجة.',mn:'تذكّر',mnp:'تقرير واحد لا يحسم شيئًا. غالبًا تُعاد الفحوصات والطبيب ينظر إلى الصورة كاملة.',ft:'متتبع الدورة (تجريبي)',fl:'تاريخ آخر دورة',fc:'طول الدورة (أيام)',fb:'عرض التقدير',pick:'اختر تاريخًا.',ov:'الإباضة المتوقعة',fe:'الأيام الخصبة',est:'هذا تقدير تقريبي فقط.',fcm:'حالات شائعة',dt:'قائمة نموذجية (أسماء وهمية)',dp:'سينضم الأطباء الموثقون الحقيقيون لاحقًا.',s1:'طبيب نساء',s2:'طبيب ذكورة',s3:'أخصائي أطفال الأنابيب',book:'احجز',booked:'تجريبي: تم الحجز ✓'}
+};
+var L='hi',ids=['home','report','male','female','docs'];
+function setLang(l){
+ S=l;L=T[l]?l:'en';document.getElementById('fb').style.display=T[l]?'none':'block';
+ document.documentElement.lang=S;document.documentElement.dir=RTL.indexOf(S)>-1?'rtl':'ltr';
+ document.querySelectorAll('[data-t]').forEach(function(e){e.textContent=T[L][e.dataset.t]});
+ document.getElementById('out').textContent='';document.getElementById('cout').textContent='';
+ try{localStorage.setItem('fw_lang',S)}catch(e){}
+}
+function go(id){
+ ids.forEach(function(s,i){
+  document.getElementById(s).classList.toggle('on',s===id);
+  document.querySelectorAll('nav button')[i].classList.toggle('on',s===id);
+ });
+ window.scrollTo(0,0);
+}
+function explain(){
+ var c=parseFloat(document.getElementById('conc').value),m=parseFloat(document.getElementById('mot').value),t=[],x=T[L];
+ if(isNaN(c)&&isNaN(m)){document.getElementById('out').textContent=x.need;return;}
+ if(!isNaN(c))t.push(c>=16?x.cok:x.clo);
+ if(!isNaN(m))t.push(m>=42?x.mok:x.mlo);
+ var o=document.getElementById('out');o.innerHTML='';
+ t.forEach(function(s){var p=document.createElement('p');p.textContent=s;o.appendChild(p)});
+ var n=document.createElement('div');n.className='note';n.textContent=x.disc;o.appendChild(n);
+}
+function cycle(){
+ var x=T[L],d=document.getElementById('lmp').value,n=parseInt(document.getElementById('cyc').value),o=document.getElementById('cout');
+ if(!d){o.textContent=x.pick;return;}
+ var s=new Date(d),ov=new Date(s.getTime()+(n-14)*864e5),a=new Date(ov.getTime()-5*864e5);
+ var f=function(z){return z.toLocaleDateString(x.loc,{day:'numeric',month:'long'})};
+ o.innerHTML='';
+ [x.ov+': '+f(ov),x.fe+': '+f(a)+' – '+f(ov)].forEach(function(s){var p=document.createElement('p');p.textContent=s;o.appendChild(p)});
+ var n2=document.createElement('div');n2.className='note';n2.textContent=x.est;o.appendChild(n2);
+}
+function book(b){b.textContent=T[L].booked;b.disabled=true}
+function enterApp(){document.getElementById('login').classList.remove('on');document.getElementById('nav').style.display='flex';go('home')}
+function sendOtp(){var v=document.getElementById('ph').value.trim(),e=document.getElementById('lerr');if(!/^\+?[0-9 ]{8,16}$/.test(v)){e.textContent=T[L].lb;return}e.textContent='';document.getElementById('otpbox').style.display='block'}
+function verify(){var e=document.getElementById('lerr');if(document.getElementById('otp').value.trim()==='123456'){enterApp()}else{e.textContent=T[L].lb}}
+var S='en',manual=false,RTL=['ar','ur','fa','he','ps','sd','ug','yi','dv'];
+var LANGS='hi:हिन्दी|en:English|bn:বাংলা|ta:தமிழ்|te:తెలుగు|mr:मराठी|gu:ગુજરાતી|kn:ಕನ್ನಡ|ml:മലയാളം|pa:ਪੰਜਾਬੀ|ur:اردو|or:ଓଡ଼ିଆ|as:অসমীয়া|ne:नेपाली|si:සිංහල|es:Español|fr:Français|ar:العربية|pt:Português|ru:Русский|de:Deutsch|it:Italiano|zh:中文|ja:日本語|ko:한국어|tr:Türkçe|id:Bahasa Indonesia|ms:Bahasa Melayu|th:ไทย|vi:Tiếng Việt|fil:Filipino|nl:Nederlands|pl:Polski|uk:Українська|el:Ελληνικά|he:עברית|fa:فارسی|ps:پښتو|sw:Kiswahili|am:አማርኛ|ha:Hausa|yo:Yorùbá|ig:Igbo|zu:isiZulu|xh:isiXhosa|st:Sesotho|sn:chiShona|rw:Kinyarwanda|ny:Chichewa|mg:Malagasy|so:Soomaali|af:Afrikaans|sv:Svenska|no:Norsk|da:Dansk|fi:Suomi|cs:Čeština|sk:Slovenčina|hu:Magyar|ro:Română|bg:Български|sr:Српски|hr:Hrvatski|sl:Slovenščina|bs:Bosanski|sq:Shqip|mk:Македонски|lt:Lietuvių|lv:Latviešu|et:Eesti|is:Íslenska|ga:Gaeilge|cy:Cymraeg|ca:Català|gl:Galego|eu:Euskara|mt:Malti|lb:Lëtzebuergesch|be:Беларуская|ka:ქართული|hy:Հայերեն|az:Azərbaycanca|kk:Қазақша|uz:Oʻzbekcha|ky:Кыргызча|tg:Тоҷикӣ|tk:Türkmençe|mn:Монгол|my:မြန်မာ|km:ខ្មែរ|lo:ລາວ|ceb:Cebuano|jv:Basa Jawa|su:Basa Sunda|ku:Kurdî|sd:سنڌي|ug:ئۇيغۇرچە|dv:ދިވެހި|ht:Kreyòl ayisyen|mi:Māori|sm:Gagana Samoa|yi:ייִדיש'.split('|').map(function(x){var i=x.indexOf(':');return [x.slice(0,i),x.slice(i+1)]});
+var sel=document.getElementById('lang');
+LANGS.forEach(function(p){var o=document.createElement('option');o.value=p[0];o.textContent=p[1];sel.appendChild(o)});
+var DIAL={'91':'hi','1':'en','44':'en','61':'en','234':'en','27':'en','34':'es','52':'es','54':'es','57':'es','56':'es','51':'es','33':'fr','32':'fr','966':'ar','971':'ar','20':'ar','212':'ar','962':'ar','964':'ar','49':'de','43':'de','41':'de','39':'it','55':'pt','351':'pt','7':'ru','375':'be','380':'uk','86':'zh','852':'zh','886':'zh','81':'ja','82':'ko','90':'tr','92':'ur','880':'bn','94':'si','977':'ne','95':'my','855':'km','856':'lo','62':'id','60':'ms','66':'th','84':'vi','63':'fil','31':'nl','48':'pl','30':'el','972':'he','98':'fa','93':'ps','254':'sw','255':'sw','251':'am','252':'so','998':'uz','996':'ky','992':'tg','993':'tk','976':'mn','995':'ka','374':'hy','994':'az','46':'sv','47':'no','45':'da','358':'fi','420':'cs','421':'sk','36':'hu','40':'ro','359':'bg','381':'sr','385':'hr','386':'sl','355':'sq','370':'lt','371':'lv','372':'et','354':'is','353':'ga'};
+function autoLang(){var v=document.getElementById('ph').value.trim();if(manual||v.charAt(0)!=='+')return;var d=v.replace(/[^0-9]/g,'');for(var n=3;n>0;n--){var c=DIAL[d.slice(0,n)];if(c){sel.value=c;setLang(c);return}}}
+var saved='en';try{saved=localStorage.getItem('fw_lang')||'en'}catch(e){}
+if(!LANGS.some(function(p){return p[0]===saved}))saved='en';
+sel.value=saved;if(saved!=='en')manual=true;setLang(saved);
+</script>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+const app=initializeApp({apiKey:"AIzaSyCOoML17kVbJA3zStmux9LdwecM-R_gA78",authDomain:"fertiworld-ai-92a7e.firebaseapp.com",projectId:"fertiworld-ai-92a7e",storageBucket:"fertiworld-ai-92a7e.firebasestorage.app",messagingSenderId:"254427391694",appId:"1:254427391694:web:720ac929ffc5e5eeb3129f"});
+const auth=getAuth(app);
+window.googleLogin=async function(){
+ var e=document.getElementById('lerr');e.textContent='';
+ try{await signInWithPopup(auth,new GoogleAuthProvider())}
+ catch(err){e.textContent=(err&&err.code)?err.code:'Login failed'}
+};
+onAuthStateChanged(auth,function(u){if(u)enterApp()});
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){})}</script>
+</body>
+</html>
