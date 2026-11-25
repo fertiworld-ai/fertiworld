@@ -79,6 +79,7 @@ details{border-top:1px solid var(--line);padding:8px 0}summary{cursor:pointer;fo
 <div class="card"><h3 data-t="fps"></h3><label style="display:flex;gap:10px;align-items:flex-start;font-size:14px"><input id="fpcb" type="checkbox" style="width:auto;margin-top:4px" onchange="fpUpdate()"><span data-t="fpc"></span></label><p id="fpst" data-t="fpoff" style="margin-top:10px"></p><p data-t="fpx" style="margin-top:10px"></p><button class="alt" onclick="go('home')" data-t="n1"></button></div></section>
 
 <section id="profile"><div class="card"><h3 data-t="acc"></h3><p id="pname" style="color:var(--ink);font-weight:600"></p><p id="pemail"></p><button onclick="fwSignOut()" data-t="sout"></button></div>
+<div class="card"><h3 data-t="mlt"></h3><div id="mylist" class="res"></div><button class="alt" onclick="myListings()" data-t="mlb"></button></div>
 <div class="card"><h3 data-t="delt"></h3><p data-t="delp"></p><p id="pmsg" class="res"></p><button class="alt" onclick="fwDelete()" data-t="delb"></button> <button class="alt" onclick="go('home')" data-t="n1"></button></div></section>
 
 <section id="howto"><div class="card"><h3 data-t="hwt"></h3><div class="note" data-t="ivn"></div><ol style="list-style:none;padding-left:0;margin:0;font-size:14px;line-height:1.7;color:var(--mute)"><li data-t="hw1"></li><li data-t="hw2"></li><li data-t="hw3"></li></ol></div>
@@ -96,11 +97,14 @@ details{border-top:1px solid var(--line);padding:8px 0}summary{cursor:pointer;fo
 
 <section id="clinicreg"><div class="card"><h3 data-t="crt"></h3><div class="note" data-t="crn"></div>
 <label><span data-t="crty"></span><select id="cr_type" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px"><option value="ivf" data-t="mp1"></option><option value="hospital" data-t="mp2"></option><option value="doctor" data-t="mp3"></option><option value="lab" data-t="mp4"></option></select></label>
-<label><span data-t="crnm"></span><input id="cr_name" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" maxlength="120"></label><label><span data-t="crc"></span><input id="cr_city" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" maxlength="80"></label><label><span data-t="crco"></span><input id="cr_country" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" maxlength="80"></label><label><span data-t="cra"></span><input id="cr_addr" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" maxlength="250"></label><label><span data-t="crph"></span><input id="cr_phone" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" type="tel" maxlength="30"></label><label><span data-t="crw"></span><input id="cr_web" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" maxlength="200"></label><label><span data-t="crs"></span><input id="cr_serv" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" maxlength="250"></label>
+<label><span data-t="crnm"></span><input id="cr_name" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" maxlength="120"></label><label><span data-t="crc"></span><input id="cr_city" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" maxlength="80"></label><label><span data-t="crco"></span><input id="cr_country" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" maxlength="80"></label><label><span data-t="cra"></span><input id="cr_addr" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" maxlength="250"></label><label><span data-t="crph"></span><input id="cr_phone" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" type="tel" maxlength="30"></label><label><span data-t="crw"></span><input id="cr_web" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" maxlength="200"></label><label><span data-t="crs"></span><input id="cr_serv" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" maxlength="250"></label><label><span data-t="crreg"></span><input id="cr_reg" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" maxlength="60"></label><label><span data-t="crq"></span><input id="cr_q" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" maxlength="120"></label><label><span data-t="crsp"></span><input id="cr_sp" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" maxlength="120"></label><label><span data-t="crlg"></span><input id="cr_lg" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" maxlength="120"></label><label><span data-t="crhr"></span><input id="cr_hr" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" maxlength="120"></label>
 <button class="alt" onclick="crLoc()" data-t="crloc"></button>
 <label><span data-t="crlat"></span><input id="cr_lat" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" inputmode="decimal"></label><label><span data-t="crlng"></span><input id="cr_lng" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" inputmode="decimal"></label>
 <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;margin-top:10px"><input id="cr_ok" type="checkbox" style="width:auto;margin-top:4px"><span data-t="crok"></span></label>
 <p id="crmsg" class="res"></p><button onclick="crSend()" data-t="crsend"></button> <button class="alt" onclick="go('home')" data-t="n1"></button></div></section>
+
+<section id="admin"><div class="card"><h3>Admin</h3><p>Verify only after a phone call. Check the registration number of doctors.</p><button onclick="admLoad()">Pending listings</button> <button class="alt" onclick="admReports()">Reports</button></div>
+<div id="admlist"></div><button class="alt" onclick="go('home')" data-t="n1"></button></section>
 
 <section id="report"><div class="card"><h3 data-t="rt"></h3>
 <label><span data-t="rc"></span><input id="conc" type="number"></label>
@@ -125,7 +129,7 @@ details{border-top:1px solid var(--line);padding:8px 0}summary{cursor:pointer;fo
 <div class="card"><div class="row"><div><h3>Dr. Sample C</h3><p data-t="s3"></p></div><button onclick="book(this)" data-t="book"></button></div></div>
 </section>
 
-<p style="text-align:center;font-size:13px;margin:8px 0 0"><a href="privacy.html" style="color:inherit">Privacy Policy</a> · <a href="terms.html" style="color:inherit" data-t="trm"></a><span id="pl" style="display:none"> · <a href="#" style="color:inherit" onclick="go('profile');return false" data-t="prof"></a> · <a href="#" style="color:inherit" onclick="shareApp();return false" data-t="shr"></a></span></p>
+<p style="text-align:center;font-size:13px;margin:8px 0 0"><a href="privacy.html" style="color:inherit">Privacy Policy</a> · <a href="terms.html" style="color:inherit" data-t="trm"></a><span id="pl" style="display:none"> · <a href="#" style="color:inherit" onclick="go('profile');return false" data-t="prof"></a> · <a href="#" style="color:inherit" onclick="shareApp();return false" data-t="shr"></a><span id="alw" style="display:none"> · <a href="#" style="color:inherit" onclick="go('admin');admLoad();return false">Admin</a></span></span></p>
 <nav id="nav" style="display:none"><button class="on" data-t="n1" onclick="go('home')"></button><button data-t="n2" onclick="go('report')"></button><button data-t="n3" onclick="go('male')"></button><button data-t="n4" onclick="go('female')"></button><button data-t="n5" onclick="go('docs')"></button></nav>
 
 <script>
@@ -167,13 +171,18 @@ Object.assign(T.ru,{"emg": "Ваша безопасность на первом 
 Object.assign(T.id,{"emg": "Keselamatan Anda yang utama: jika mengalami nyeri hebat, perdarahan banyak, pingsan, atau keadaan mendesak apa pun, segera cari bantuan medis (112 di India). Aplikasi ini bukan untuk keadaan darurat.", "acc": "Akun Anda", "sout": "Keluar", "delt": "Hapus akun saya", "delb": "Hapus akun saya", "delc": "Hapus akun Anda? Tindakan ini tidak dapat dibatalkan.", "prof": "Profil", "shr": "Bagikan aplikasi", "trm": "Ketentuan"});
 Object.assign(T.en,{"crh": "Register your clinic or doctor profile", "crp": "Join the verified directory. We confirm by phone before you appear.", "crt": "Register your place", "crn": "We will call to confirm before your listing appears publicly.", "crty": "Type", "crnm": "Name", "crc": "City", "crco": "Country", "cra": "Address", "crph": "Phone", "crw": "Website (optional)", "crs": "Services (for example IVF, IUI)", "crloc": "Use my current location", "crlat": "Latitude", "crlng": "Longitude", "crok": "I am authorised to represent this place and the information is correct.", "crsend": "Submit for verification", "crdone": "Thank you. We will call you to verify before this listing appears.", "crerr": "Please fill the name, the city and tick the confirmation.", "crfail": "Could not submit. Please try again later.", "mpv2": "Verified listing", "mpz": "No verified places here yet. Know a clinic or doctor? Invite them to register.", "mph": "Find fertility care", "mpp": "Verified clinics, hospitals, doctors and labs on a map.", "mpn": "Only places verified by our team are shown."});
 Object.assign(T.hi,{"crh": "अपना क्लिनिक या डॉक्टर प्रोफ़ाइल रजिस्टर करें", "crp": "सत्यापित सूची से जुड़िए। दिखने से पहले हम फ़ोन करके पुष्टि करते हैं।", "crt": "अपनी जगह रजिस्टर करें", "crn": "आपकी सूची सबको दिखने से पहले हम फ़ोन करके पुष्टि करेंगे।", "crty": "प्रकार", "crnm": "नाम", "crc": "शहर", "crco": "देश", "cra": "पता", "crph": "फ़ोन", "crw": "वेबसाइट (वैकल्पिक)", "crs": "सेवाएँ (जैसे IVF, IUI)", "crloc": "मेरी मौजूदा जगह इस्तेमाल करें", "crlat": "अक्षांश", "crlng": "देशांतर", "crok": "मैं इस जगह का प्रतिनिधित्व करने के लिए अधिकृत हूँ और जानकारी सही है।", "crsend": "सत्यापन के लिए भेजें", "crdone": "धन्यवाद। यह सूची दिखने से पहले हम आपको फ़ोन करके पुष्टि करेंगे।", "crerr": "कृपया नाम, शहर भरें और पुष्टि पर टिक करें।", "crfail": "भेजा नहीं जा सका। कृपया बाद में फिर कोशिश करें।", "mpv2": "सत्यापित सूची", "mpz": "यहाँ अभी कोई सत्यापित जगह नहीं है। कोई क्लिनिक या डॉक्टर जानते हैं? उन्हें रजिस्टर करने के लिए कहिए।", "mph": "फ़र्टिलिटी देखभाल खोजें", "mpp": "नक्शे पर सत्यापित क्लिनिक, अस्पताल, डॉक्टर और लैब।", "mpn": "सिर्फ़ हमारी टीम द्वारा सत्यापित जगहें दिखाई जाती हैं।"});
-var L='hi',ids=['home','report','male','female','docs','feedback','ivf','passport','profile','howto','learn','map','clinicreg'];
+Object.assign(T.en,{"crreg": "Medical registration number (required for doctors)", "crq": "Qualification (for doctors)", "crsp": "Speciality (for doctors)", "crlg": "Languages spoken", "crhr": "Opening hours", "crerr2": "Doctors: please add the medical registration number.", "rpt": "Report wrong information", "rptq": "What is wrong? (for example closed, wrong phone or address)", "rptok": "Thank you. We will check this listing.", "rptfail": "Could not send the report. Please try again later.", "mpweb": "Website", "mplg": "Languages", "mphr": "Hours"});
+Object.assign(T.hi,{"crreg": "चिकित्सा पंजीकरण संख्या (डॉक्टरों के लिए ज़रूरी)", "crq": "योग्यता (डॉक्टरों के लिए)", "crsp": "विशेषज्ञता (डॉक्टरों के लिए)", "crlg": "बोली जाने वाली भाषाएँ", "crhr": "खुलने का समय", "crerr2": "डॉक्टर: कृपया चिकित्सा पंजीकरण संख्या जोड़ें।", "rpt": "गलत जानकारी की रिपोर्ट करें", "rptq": "क्या गलत है? (जैसे बंद है, फ़ोन या पता गलत है)", "rptok": "धन्यवाद। हम इस सूची की जाँच करेंगे।", "rptfail": "रिपोर्ट भेजी नहीं जा सकी। कृपया बाद में फिर कोशिश करें।", "mpweb": "वेबसाइट", "mplg": "भाषाएँ", "mphr": "समय"});
+Object.assign(T.en,{"mlt": "My registered places", "mlb": "Show my places", "mlnone": "You have not registered any place yet."});
+Object.assign(T.hi,{"mlt": "मेरे रजिस्टर किए गए स्थान", "mlb": "मेरे स्थान दिखाएँ", "mlnone": "आपने अभी कोई स्थान रजिस्टर नहीं किया है।"});
+var L='hi',ids=['home','report','male','female','docs','feedback','ivf','passport','profile','howto','learn','map','clinicreg','admin'];
 function setLang(l){
  S=l;L=T[l]?l:'en';document.getElementById('fb').style.display=T[l]?'none':'block';
  document.documentElement.lang=S;document.documentElement.dir=RTL.indexOf(S)>-1?'rtl':'ltr';
  document.querySelectorAll('[data-t]').forEach(function(e){e.textContent=T[L][e.dataset.t]||T.en[e.dataset.t]});
  document.getElementById('out').textContent='';document.getElementById('cout').textContent='';
  try{localStorage.setItem('fw_lang',S)}catch(e){}
+ try{if(window.fwSaveLang)Promise.resolve(fwSaveLang(S)).catch(function(){})}catch(e){}
 }
 function go(id){
  ids.forEach(function(s,i){
@@ -219,7 +228,7 @@ function drawMap(){
  setTimeout(function(){fwMap.invalidateSize();loadReal()},60)}
 function loadReal(){
  if(!window.fwLoadListings){mapShow();return}
- fwLoadListings().then(function(a){MPD=a.filter(function(p){return p.lat!=null&&p.lng!=null&&isFinite(p.lat)&&isFinite(p.lng)}).map(function(p){return{n:p.name,c:p.city,t:p.type,la:+p.lat,lo:+p.lng,s:p.services||'',addr:p.address||'',ph:p.phone||''}});mapShow()}).catch(function(){mapShow();var x=T[L]||T.en;document.getElementById('mapmsg').textContent=x.mpe||T.en.mpe})}
+ fwLoadListings().then(function(a){MPD=a.filter(function(p){return p.lat!=null&&p.lng!=null&&isFinite(p.lat)&&isFinite(p.lng)}).map(function(p){return{n:p.name,c:p.city,t:p.type,la:+p.lat,lo:+p.lng,s:p.services||'',addr:p.address||'',ph:p.phone||'',id:p.id,web:p.website||'',lg:p.languages||'',hr:p.hours||'',q:p.qualification||'',sp:p.specialty||''}});mapShow()}).catch(function(){mapShow();var x=T[L]||T.en;document.getElementById('mapmsg').textContent=x.mpe||T.en.mpe})}
 function mapShow(){
  if(!fwLayer)return;
  var x=T[L]||T.en,q=document.getElementById('mapq').value.toLowerCase(),box=document.getElementById('maplist'),pts=[];
@@ -233,16 +242,35 @@ function mapShow(){
   var a=document.createElement('p');a.textContent=p.s;
   var v=document.createElement('p');v.textContent=(x.mpv2||T.en.mpv2)+(p.addr?' · '+p.addr:'');
   var k=document.createElement('a');k.href='https://www.google.com/maps/dir/?api=1&destination='+p.la+','+p.lo;k.target='_blank';k.rel='noopener';k.textContent=x.mpd||T.en.mpd;k.style.color='var(--brand)';
-  d.appendChild(h);d.appendChild(a);d.appendChild(v);d.appendChild(k);if(p.ph){var tl=document.createElement('a');tl.href='tel:'+p.ph.replace(/[^+0-9]/g,'');tl.textContent=' · '+p.ph;tl.style.color='var(--brand)';d.appendChild(tl)}box.appendChild(d)});
+  d.appendChild(h);d.appendChild(a);d.appendChild(v);d.appendChild(k);if(p.ph){var tl=document.createElement('a');tl.href='tel:'+p.ph.replace(/[^+0-9]/g,'');tl.textContent=' · '+p.ph;tl.style.color='var(--brand)';d.appendChild(tl)}
+  var inf=[];if(p.sp)inf.push(p.sp);if(p.q)inf.push(p.q);if(p.lg)inf.push((x.mplg||T.en.mplg)+': '+p.lg);if(p.hr)inf.push((x.mphr||T.en.mphr)+': '+p.hr);
+  if(inf.length){var ip=document.createElement('p');ip.textContent=inf.join(' · ');d.appendChild(ip)}
+  if(p.web&&/^https?:\/\//i.test(p.web)){var wl=document.createElement('a');wl.href=p.web;wl.target='_blank';wl.rel='noopener';wl.textContent=' · '+(x.mpweb||T.en.mpweb);wl.style.color='var(--brand)';d.appendChild(wl)}
+  var rl=document.createElement('a');rl.href='#';rl.textContent=x.rpt||T.en.rpt;rl.style.cssText='display:block;margin-top:8px;font-size:13px;color:var(--mute)';rl.onclick=function(ev){ev.preventDefault();reportListing(p.id)};d.appendChild(rl);
+  box.appendChild(d)});
  if(pts.length)fwMap.fitBounds(pts,{maxZoom:11,padding:[30,30]})}
 function crv(i){return(document.getElementById(i).value||'').trim()}
 function crLoc(){if(!navigator.geolocation)return;navigator.geolocation.getCurrentPosition(function(p){document.getElementById('cr_lat').value=p.coords.latitude.toFixed(5);document.getElementById('cr_lng').value=p.coords.longitude.toFixed(5)})}
 function crSend(){
  var x=T[L]||T.en,m=document.getElementById('crmsg'),la=parseFloat(crv('cr_lat')),lo=parseFloat(crv('cr_lng'));
- var d={type:crv('cr_type'),name:crv('cr_name'),city:crv('cr_city'),country:crv('cr_country'),address:crv('cr_addr'),phone:crv('cr_phone'),website:crv('cr_web'),services:crv('cr_serv'),lat:isFinite(la)?la:null,lng:isFinite(lo)?lo:null};
+ var d={type:crv('cr_type'),name:crv('cr_name'),city:crv('cr_city'),country:crv('cr_country'),address:crv('cr_addr'),phone:crv('cr_phone'),website:crv('cr_web'),services:crv('cr_serv'),lat:isFinite(la)?la:null,lng:isFinite(lo)?lo:null,regNo:crv('cr_reg'),qualification:crv('cr_q'),specialty:crv('cr_sp'),languages:crv('cr_lg'),hours:crv('cr_hr')};
  if(!d.name||!d.city||!document.getElementById('cr_ok').checked){m.textContent=x.crerr||T.en.crerr;return}
+ if(d.type==='doctor'&&!d.regNo){m.textContent=x.crerr2||T.en.crerr2;return}
+ ['regNo','qualification','specialty','languages','hours'].forEach(function(k){if(!d[k])delete d[k]});
  if(!window.fwAddListing){m.textContent=x.crfail||T.en.crfail;return}
  fwAddListing(d).then(function(){m.textContent=x.crdone||T.en.crdone}).catch(function(){m.textContent=x.crfail||T.en.crfail})}
+function reportListing(id){var x=T[L]||T.en;var r=prompt(x.rptq||T.en.rptq);if(!r)return;if(!window.fwReport)return;fwReport(id,r.slice(0,300)).then(function(){alert(x.rptok||T.en.rptok)}).catch(function(){alert(x.rptfail||T.en.rptfail)})}
+function myListings(){var box=document.getElementById('mylist');box.textContent='';if(!window.fwMyListings)return;fwMyListings().then(function(a){var x=T[L]||T.en;if(!a.length){box.textContent=x.mlnone||T.en.mlnone;return}a.forEach(function(p){var d=document.createElement('p');d.textContent=p.name+' · '+p.city+' · '+(p.status||'');box.appendChild(d)})}).catch(function(){box.textContent=(T[L]||T.en).rptfail||T.en.rptfail})}
+function admInp(ph,val){var i=document.createElement('input');i.placeholder=ph;i.value=val==null?'':val;i.style.cssText='width:48%;padding:8px;margin:6px 2% 6px 0;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit';return i}
+function admLoad(){var box=document.getElementById('admlist');box.textContent='';if(!window.fwAdminList)return;fwAdminList('pending').then(function(a){if(!a.length){box.textContent='No pending listings.';return}a.forEach(function(p){
+ var d=document.createElement('div');d.className='card';
+ var h=document.createElement('h3');h.textContent=p.name+' ('+p.type+')';d.appendChild(h);
+ var t=document.createElement('p');t.textContent=[p.city,p.country,p.address,p.phone,p.website,p.services,p.regNo?('Reg: '+p.regNo):'',p.qualification,p.specialty,p.languages,p.hours].filter(Boolean).join(' · ');d.appendChild(t);
+ var la=admInp('latitude',p.lat),lo=admInp('longitude',p.lng);d.appendChild(la);d.appendChild(lo);
+ var ok=document.createElement('button');ok.textContent='Verify';ok.onclick=function(){var a1=parseFloat(la.value),b1=parseFloat(lo.value);if(!isFinite(a1)||!isFinite(b1)){alert('Add valid latitude and longitude first');return}fwAdminSet(p.id,{status:'verified',lat:a1,lng:b1}).then(function(){d.remove()}).catch(function(){alert('Failed')})};
+ var no=document.createElement('button');no.className='alt';no.textContent='Reject';no.style.marginLeft='8px';no.onclick=function(){fwAdminSet(p.id,{status:'rejected'}).then(function(){d.remove()}).catch(function(){alert('Failed')})};
+ d.appendChild(ok);d.appendChild(no);box.appendChild(d)})}).catch(function(){box.textContent='Could not load. Check that you are signed in as the admin.'})}
+function admReports(){var box=document.getElementById('admlist');box.textContent='';if(!window.fwAdminReports)return;fwAdminReports().then(function(a){if(!a.length){box.textContent='No reports.';return}a.forEach(function(p){var d=document.createElement('div');d.className='card';var t=document.createElement('p');t.textContent='Listing '+p.listingId+': '+p.reason;d.appendChild(t);box.appendChild(d)})}).catch(function(){box.textContent='Could not load reports.'})}
 function book(b){b.textContent=T[L].booked;b.disabled=true}
 function enterApp(){document.getElementById('login').classList.remove('on');document.getElementById('nav').style.display='flex';document.getElementById('pl').style.display='inline';go('home')}
 function showLogin(){ids.forEach(function(x){document.getElementById(x).classList.remove('on')});document.getElementById('login').classList.add('on');document.getElementById('nav').style.display='none';document.getElementById('pl').style.display='none'}
@@ -261,12 +289,19 @@ sel.value=saved;if(saved!=='en')manual=true;setLang(saved);
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged,signOut,deleteUser} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import {getFirestore,collection,addDoc,getDocs,query,where,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {getFirestore,collection,addDoc,getDocs,query,where,serverTimestamp,doc,setDoc,getDoc,updateDoc} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 const app=initializeApp({apiKey:"AIzaSyCOoML17kVbJA3zStmux9LdwecM-R_gA78",authDomain:"fertiworld-ai-92a7e.firebaseapp.com",projectId:"fertiworld-ai-92a7e",storageBucket:"fertiworld-ai-92a7e.firebasestorage.app",messagingSenderId:"254427391694",appId:"1:254427391694:web:720ac929ffc5e5eeb3129f"});
 const auth=getAuth(app);
 const db=getFirestore(app);
 window.fwAddListing=async function(d){var u=auth.currentUser;if(!u)throw new Error('login');await addDoc(collection(db,'listings'),Object.assign({},d,{status:'pending',ownerUid:u.uid,createdAt:serverTimestamp()}))};
-window.fwLoadListings=async function(){var q=query(collection(db,'listings'),where('status','==','verified'));var r=await getDocs(q);var a=[];r.forEach(function(x){a.push(x.data())});return a};
+window.fwLoadListings=async function(){var q=query(collection(db,'listings'),where('status','==','verified'));var r=await getDocs(q);var a=[];r.forEach(function(x){a.push(Object.assign({id:x.id},x.data()))});return a};
+window.fwReport=async function(id,reason){var u=auth.currentUser;if(!u)throw new Error('login');await addDoc(collection(db,'reports'),{listingId:String(id||''),reason:String(reason).slice(0,300),reporterUid:u.uid,createdAt:serverTimestamp()})};
+window.fwSaveLang=async function(l){var u=auth.currentUser;if(!u)return;await setDoc(doc(db,'users',u.uid),{lang:String(l).slice(0,5),updatedAt:serverTimestamp()})};
+window.fwMyListings=async function(){var u=auth.currentUser;if(!u)return[];var r=await getDocs(query(collection(db,'listings'),where('ownerUid','==',u.uid)));var a=[];r.forEach(function(x){a.push(Object.assign({id:x.id},x.data()))});return a};
+window.fwAdminList=async function(st){var r=await getDocs(query(collection(db,'listings'),where('status','==',st)));var a=[];r.forEach(function(x){a.push(Object.assign({id:x.id},x.data()))});return a};
+window.fwAdminSet=async function(id,patch){await updateDoc(doc(db,'listings',id),patch)};
+window.fwAdminReports=async function(){var r=await getDocs(collection(db,'reports'));var a=[];r.forEach(function(x){a.push(Object.assign({id:x.id},x.data()))});return a};
+window.fwLoadLang=async function(){var u=auth.currentUser;if(!u)return null;var r=await getDoc(doc(db,'users',u.uid));return r.exists()?r.data().lang:null};
 window.googleLogin=async function(){
  var e=document.getElementById('lerr');e.textContent='';
  try{await signInWithPopup(auth,new GoogleAuthProvider())}
@@ -279,7 +314,7 @@ window.fwDelete=async function(){
  try{await deleteUser(auth.currentUser)}catch(err){m.textContent=(err&&err.code==='auth/requires-recent-login')?(x.dele||T.en.dele):((err&&err.code)||'Error')}
 };
 onAuthStateChanged(auth,function(u){
- if(u){document.getElementById('pname').textContent=u.displayName||'';document.getElementById('pemail').textContent=u.email||'';enterApp()}
+ if(u){document.getElementById('pname').textContent=u.displayName||'';document.getElementById('pemail').textContent=u.email||'';document.getElementById('alw').style.display=(u.email==='fertiworld.official@gmail.com')?'inline':'none';enterApp();fwLoadLang().then(function(l){if(l&&T[l]){document.getElementById('lang').value=l;manual=true;setLang(l)}}).catch(function(){})}
  else{showLogin()}
 });
 </script>
