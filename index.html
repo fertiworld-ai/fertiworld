@@ -58,6 +58,7 @@ details{border-top:1px solid var(--line);padding:8px 0}summary{cursor:pointer;fo
 <div class="card"><h3 data-t="ivh"></h3><p data-t="ivp"></p><button class="alt" onclick="go('ivf')" data-t="view"></button></div>
 <div class="card"><h3 data-t="lrh"></h3><p data-t="lrp"></p><button class="alt" onclick="go('learn')" data-t="view"></button></div>
 <div class="card"><h3 data-t="crh"></h3><p data-t="crp"></p><button class="alt" onclick="go('clinicreg')" data-t="view"></button></div>
+<div class="card"><h3 data-t="plh"></h3><p data-t="plp"></p><button class="alt" onclick="go('plans')" data-t="view"></button></div>
 <div class="card"><h3 data-t="mph"></h3><p data-t="mpp"></p><button class="alt" onclick="go('map')" data-t="view"></button></div>
 <div class="card"><h3 data-t="hwh"></h3><p data-t="hwp"></p><button class="alt" onclick="go('howto')" data-t="view"></button></div>
 <div class="card"><h3 data-t="fph"></h3><p data-t="fphp"></p><button class="alt" onclick="go('passport')" data-t="view"></button></div>
@@ -92,6 +93,7 @@ details{border-top:1px solid var(--line);padding:8px 0}summary{cursor:pointer;fo
 <section id="map"><div class="card"><h3 data-t="mpt"></h3><div class="note" data-t="mpn"></div>
 <label><span data-t="mps"></span><input id="mapq" oninput="mapShow()"></label>
 <label><select id="mapt" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;margin-top:6px" onchange="mapF=this.value;mapShow()"><option value="all" data-t="mpa"></option><option value="ivf" data-t="mp1"></option><option value="hospital" data-t="mp2"></option><option value="doctor" data-t="mp3"></option><option value="lab" data-t="mp4"></option></select></label>
+<button class="alt" onclick="mapNear()" data-t="mpnear"></button>
 <p id="mapmsg" class="res"></p><div id="fwmap" style="height:320px;border-radius:12px;margin-top:10px"></div></div>
 <div id="maplist"></div><button class="alt" onclick="go('home')" data-t="n1"></button></section>
 
@@ -103,8 +105,12 @@ details{border-top:1px solid var(--line);padding:8px 0}summary{cursor:pointer;fo
 <label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;margin-top:10px"><input id="cr_ok" type="checkbox" style="width:auto;margin-top:4px"><span data-t="crok"></span></label>
 <p id="crmsg" class="res"></p><button onclick="crSend()" data-t="crsend"></button> <button class="alt" onclick="go('home')" data-t="n1"></button></div></section>
 
-<section id="admin"><div class="card"><h3>Admin</h3><p>Verify only after a phone call. Check the registration number of doctors.</p><button onclick="admLoad()">Pending listings</button> <button class="alt" onclick="admReports()">Reports</button></div>
+<section id="admin"><div class="card"><h3>Admin</h3><p>Verify only after a phone call. Check the registration number of doctors.</p><button onclick="admLoad()">Pending listings</button> <button class="alt" onclick="admReports()">Reports</button> <button class="alt" onclick="admVerified()">Verified listings</button></div>
 <div id="admlist"></div><button class="alt" onclick="go('home')" data-t="n1"></button></section>
+
+<section id="plans"><div class="card"><h3 data-t="plt"></h3><ul style="padding-left:20px;font-size:14px;line-height:1.7;color:var(--mute)"><li data-t="pl1"></li><li data-t="pl2"></li></ul></div>
+<div class="card"><h3 data-t="plt2"></h3><ul style="padding-left:20px;font-size:14px;line-height:1.7;color:var(--mute)"><li data-t="pl3"></li><li data-t="pl4"></li><li data-t="pl5"></li></ul></div>
+<div class="card"><h3 data-t="plt3"></h3><p data-t="pl6"></p><button class="alt" onclick="go('home')" data-t="n1"></button></div></section>
 
 <section id="report"><div class="card"><h3 data-t="rt"></h3>
 <label><span data-t="rc"></span><input id="conc" type="number"></label>
@@ -175,7 +181,11 @@ Object.assign(T.en,{"crreg": "Medical registration number (required for doctors)
 Object.assign(T.hi,{"crreg": "चिकित्सा पंजीकरण संख्या (डॉक्टरों के लिए ज़रूरी)", "crq": "योग्यता (डॉक्टरों के लिए)", "crsp": "विशेषज्ञता (डॉक्टरों के लिए)", "crlg": "बोली जाने वाली भाषाएँ", "crhr": "खुलने का समय", "crerr2": "डॉक्टर: कृपया चिकित्सा पंजीकरण संख्या जोड़ें।", "rpt": "गलत जानकारी की रिपोर्ट करें", "rptq": "क्या गलत है? (जैसे बंद है, फ़ोन या पता गलत है)", "rptok": "धन्यवाद। हम इस सूची की जाँच करेंगे।", "rptfail": "रिपोर्ट भेजी नहीं जा सकी। कृपया बाद में फिर कोशिश करें।", "mpweb": "वेबसाइट", "mplg": "भाषाएँ", "mphr": "समय"});
 Object.assign(T.en,{"mlt": "My registered places", "mlb": "Show my places", "mlnone": "You have not registered any place yet."});
 Object.assign(T.hi,{"mlt": "मेरे रजिस्टर किए गए स्थान", "mlb": "मेरे स्थान दिखाएँ", "mlnone": "आपने अभी कोई स्थान रजिस्टर नहीं किया है।"});
-var L='hi',ids=['home','report','male','female','docs','feedback','ivf','passport','profile','howto','learn','map','clinicreg','admin'];
+Object.assign(T.en,{"mpnear": "Near me", "mpwa": "WhatsApp", "mpshare": "Share this place", "mpnearerr": "Could not get your location."});
+Object.assign(T.hi,{"mpnear": "मेरे पास", "mpwa": "WhatsApp", "mpshare": "यह जगह शेयर करें", "mpnearerr": "आपकी जगह नहीं मिल सकी।"});
+Object.assign(T.en,{"plh": "What is free, and our promise on fairness", "plp": "What is free today and how we stay fair.", "plt": "What is free today", "pl1": "Patients: reading the guides, report explanations, finding verified places, calling clinics and saving your language are all free.", "pl2": "Clinics and doctors: registering and getting verified is free.", "plt2": "Our promise on fairness", "pl3": "Verification is never for sale. We check by phone and, for doctors, by medical registration number.", "pl4": "Paying will never move a place higher on the map or in the lists.", "pl5": "We will never sell patient data.", "plt3": "Paid options in the future", "pl6": "Some extra tools for clinics, such as enquiry management or statistics, may become paid later. Nothing is paid today. We will announce prices clearly in the app and on this page before anyone is charged."});
+Object.assign(T.hi,{"plh": "क्या मुफ़्त है और निष्पक्षता का हमारा वादा", "plp": "आज क्या मुफ़्त है और हम निष्पक्ष कैसे रहते हैं।", "plt": "आज क्या मुफ़्त है", "pl1": "मरीज़: गाइड पढ़ना, रिपोर्ट की जानकारी, सत्यापित जगहें खोजना, क्लिनिक को फ़ोन करना और अपनी भाषा सेव करना, सब मुफ़्त है।", "pl2": "क्लिनिक और डॉक्टर: रजिस्टर करना और सत्यापित होना मुफ़्त है।", "plt2": "निष्पक्षता का हमारा वादा", "pl3": "सत्यापन कभी बिकाऊ नहीं है। हम फ़ोन करके, और डॉक्टरों के लिए चिकित्सा पंजीकरण संख्या से जाँच करते हैं।", "pl4": "पैसे देने से कोई जगह नक्शे या सूची में ऊपर नहीं आएगी।", "pl5": "हम मरीज़ों का डेटा कभी नहीं बेचेंगे।", "plt3": "भविष्य के भुगतान वाले विकल्प", "pl6": "क्लिनिक के लिए कुछ अतिरिक्त औज़ार, जैसे पूछताछ सँभालना या आँकड़े, आगे चलकर भुगतान वाले हो सकते हैं। आज कुछ भी भुगतान वाला नहीं है। किसी से पैसा लेने से पहले हम ऐप और इसी पन्ने पर कीमतें साफ़ बताएँगे।"});
+var L='hi',ids=['home','report','male','female','docs','feedback','ivf','passport','profile','howto','learn','map','clinicreg','admin','plans'];
 function setLang(l){
  S=l;L=T[l]?l:'en';document.getElementById('fb').style.display=T[l]?'none':'block';
  document.documentElement.lang=S;document.documentElement.dir=RTL.indexOf(S)>-1?'rtl':'ltr';
@@ -213,7 +223,7 @@ function sendFb(){var b='Most useful: '+document.getElementById('fq1').value+'\n
 function fpUpdate(){var e=document.getElementById('fpst');e.dataset.t=document.getElementById('fpcb').checked?'fpon':'fpoff';e.textContent=T[L][e.dataset.t]||T.en[e.dataset.t]}
 function shareApp(){var u='https://fertiworld-ai.github.io/fertiworld/',x=T[L]||T.en;if(navigator.share){navigator.share({title:'FertiWorld AI',text:x.shrt||T.en.shrt,url:u}).catch(function(){})}else if(navigator.clipboard){navigator.clipboard.writeText(u).then(function(){alert((x.shrc||T.en.shrc)+'\n'+u)})}else{prompt('',u)}}
 var MPD=[];
-var fwMap=null,fwLayer=null,mapF='all';
+var fwMap=null,fwLayer=null,mapF='all',uLat=null,uLng=null;
 function initMap(){
  if(window.L){drawMap();return}
  var l=document.createElement('link');l.rel='stylesheet';l.href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';document.head.appendChild(l);
@@ -228,25 +238,26 @@ function drawMap(){
  setTimeout(function(){fwMap.invalidateSize();loadReal()},60)}
 function loadReal(){
  if(!window.fwLoadListings){mapShow();return}
- fwLoadListings().then(function(a){MPD=a.filter(function(p){return p.lat!=null&&p.lng!=null&&isFinite(p.lat)&&isFinite(p.lng)}).map(function(p){return{n:p.name,c:p.city,t:p.type,la:+p.lat,lo:+p.lng,s:p.services||'',addr:p.address||'',ph:p.phone||'',id:p.id,web:p.website||'',lg:p.languages||'',hr:p.hours||'',q:p.qualification||'',sp:p.specialty||''}});mapShow()}).catch(function(){mapShow();var x=T[L]||T.en;document.getElementById('mapmsg').textContent=x.mpe||T.en.mpe})}
+ fwLoadListings().then(function(a){MPD=a.filter(function(p){return p.lat!=null&&p.lng!=null&&isFinite(p.lat)&&isFinite(p.lng)}).map(function(p){return{n:p.name,c:p.city,t:p.type,la:+p.lat,lo:+p.lng,s:p.services||'',addr:p.address||'',ph:p.phone||'',id:p.id,web:p.website||'',lg:p.languages||'',hr:p.hours||'',q:p.qualification||'',sp:p.specialty||'',cn:p.country||''}});mapShow()}).catch(function(){mapShow();var x=T[L]||T.en;document.getElementById('mapmsg').textContent=x.mpe||T.en.mpe})}
 function mapShow(){
  if(!fwLayer)return;
  var x=T[L]||T.en,q=document.getElementById('mapq').value.toLowerCase(),box=document.getElementById('maplist'),pts=[];
  fwLayer.clearLayers();box.innerHTML='';document.getElementById('mapmsg').textContent=MPD.length?'':(x.mpz||T.en.mpz);
+ if(uLat!=null){MPD.forEach(function(p){p.d=distKm(uLat,uLng,p.la,p.lo)});MPD.sort(function(a,b){return a.d-b.d})}
  MPD.forEach(function(p){
   if(mapF!=='all'&&p.t!==mapF)return;
   if(q&&(p.n+' '+p.c).toLowerCase().indexOf(q)<0)return;
   L.marker([p.la,p.lo]).addTo(fwLayer).bindPopup(p.n+' · '+p.c);pts.push([p.la,p.lo]);
   var d=document.createElement('div');d.className='card';
-  var h=document.createElement('h3');h.textContent=p.n+' · '+p.c;
+  var h=document.createElement('h3');h.textContent=p.n+' · '+p.c+(p.d!=null?' · '+p.d.toFixed(1)+' km':'');
   var a=document.createElement('p');a.textContent=p.s;
   var v=document.createElement('p');v.textContent=(x.mpv2||T.en.mpv2)+(p.addr?' · '+p.addr:'');
   var k=document.createElement('a');k.href='https://www.google.com/maps/dir/?api=1&destination='+p.la+','+p.lo;k.target='_blank';k.rel='noopener';k.textContent=x.mpd||T.en.mpd;k.style.color='var(--brand)';
-  d.appendChild(h);d.appendChild(a);d.appendChild(v);d.appendChild(k);if(p.ph){var tl=document.createElement('a');tl.href='tel:'+p.ph.replace(/[^+0-9]/g,'');tl.textContent=' · '+p.ph;tl.style.color='var(--brand)';d.appendChild(tl)}
+  d.appendChild(h);d.appendChild(a);d.appendChild(v);d.appendChild(k);if(p.ph){var tl=document.createElement('a');tl.href='tel:'+p.ph.replace(/[^+0-9]/g,'');tl.textContent=' · '+p.ph;tl.style.color='var(--brand)';d.appendChild(tl);var wn=waNum(p.ph,p.cn);if(wn){var w2=document.createElement('a');w2.href='https://wa.me/'+wn;w2.target='_blank';w2.rel='noopener';w2.textContent=' · '+(x.mpwa||T.en.mpwa);w2.style.color='var(--brand)';d.appendChild(w2)}}
   var inf=[];if(p.sp)inf.push(p.sp);if(p.q)inf.push(p.q);if(p.lg)inf.push((x.mplg||T.en.mplg)+': '+p.lg);if(p.hr)inf.push((x.mphr||T.en.mphr)+': '+p.hr);
   if(inf.length){var ip=document.createElement('p');ip.textContent=inf.join(' · ');d.appendChild(ip)}
   if(p.web&&/^https?:\/\//i.test(p.web)){var wl=document.createElement('a');wl.href=p.web;wl.target='_blank';wl.rel='noopener';wl.textContent=' · '+(x.mpweb||T.en.mpweb);wl.style.color='var(--brand)';d.appendChild(wl)}
-  var rl=document.createElement('a');rl.href='#';rl.textContent=x.rpt||T.en.rpt;rl.style.cssText='display:block;margin-top:8px;font-size:13px;color:var(--mute)';rl.onclick=function(ev){ev.preventDefault();reportListing(p.id)};d.appendChild(rl);
+  var rl=document.createElement('a');rl.href='#';rl.textContent=x.rpt||T.en.rpt;rl.style.cssText='display:block;margin-top:8px;font-size:13px;color:var(--mute)';rl.onclick=function(ev){ev.preventDefault();reportListing(p.id)};d.appendChild(rl);var sl=document.createElement('a');sl.href='#';sl.textContent=x.mpshare||T.en.mpshare;sl.style.cssText='display:block;margin-top:6px;font-size:13px;color:var(--brand)';sl.onclick=function(ev){ev.preventDefault();shareListing(p)};d.appendChild(sl);
   box.appendChild(d)});
  if(pts.length)fwMap.fitBounds(pts,{maxZoom:11,padding:[30,30]})}
 function crv(i){return(document.getElementById(i).value||'').trim()}
@@ -271,6 +282,11 @@ function admLoad(){var box=document.getElementById('admlist');box.textContent=''
  var no=document.createElement('button');no.className='alt';no.textContent='Reject';no.style.marginLeft='8px';no.onclick=function(){fwAdminSet(p.id,{status:'rejected'}).then(function(){d.remove()}).catch(function(){alert('Failed')})};
  d.appendChild(ok);d.appendChild(no);box.appendChild(d)})}).catch(function(){box.textContent='Could not load. Check that you are signed in as the admin.'})}
 function admReports(){var box=document.getElementById('admlist');box.textContent='';if(!window.fwAdminReports)return;fwAdminReports().then(function(a){if(!a.length){box.textContent='No reports.';return}a.forEach(function(p){var d=document.createElement('div');d.className='card';var t=document.createElement('p');t.textContent='Listing '+p.listingId+': '+p.reason;d.appendChild(t);box.appendChild(d)})}).catch(function(){box.textContent='Could not load reports.'})}
+function distKm(a,b,c,d){var r=Math.PI/180,x=(c-a)*r,y=(d-b)*r,h=Math.sin(x/2)*Math.sin(x/2)+Math.cos(a*r)*Math.cos(c*r)*Math.sin(y/2)*Math.sin(y/2);return 12742*Math.asin(Math.sqrt(h))}
+function mapNear(){var x=T[L]||T.en,m=document.getElementById('mapmsg');if(!navigator.geolocation){m.textContent=x.mpnearerr||T.en.mpnearerr;return}navigator.geolocation.getCurrentPosition(function(p){uLat=p.coords.latitude;uLng=p.coords.longitude;mapShow()},function(){m.textContent=x.mpnearerr||T.en.mpnearerr})}
+function waNum(ph,cn){var d=(ph||'').replace(/[^0-9]/g,'');if(d.length<10)return '';if(d.length===10&&/india/i.test(cn||''))d='91'+d;else if(d.charAt(0)==='0'&&/india/i.test(cn||''))d='91'+d.slice(1);return d}
+function shareListing(p){var u='https://www.google.com/maps/search/?api=1&query='+p.la+','+p.lo,x=T[L]||T.en;if(navigator.share){navigator.share({title:p.n,text:p.n+' · '+p.c,url:u}).catch(function(){})}else if(navigator.clipboard){navigator.clipboard.writeText(u).then(function(){alert((x.shrc||T.en.shrc)+'\n'+u)})}else{prompt('',u)}}
+function admVerified(){var box=document.getElementById('admlist');box.textContent='';if(!window.fwAdminList)return;fwAdminList('verified').then(function(a){if(!a.length){box.textContent='No verified listings.';return}a.forEach(function(p){var d=document.createElement('div');d.className='card';var h=document.createElement('h3');h.textContent=p.name+' ('+p.type+')';d.appendChild(h);var t=document.createElement('p');t.textContent=[p.city,p.country,p.phone].filter(Boolean).join(' · ');d.appendChild(t);var la=admInp('latitude',p.lat),lo=admInp('longitude',p.lng);d.appendChild(la);d.appendChild(lo);var sv=document.createElement('button');sv.textContent='Save location';sv.onclick=function(){var a1=parseFloat(la.value),b1=parseFloat(lo.value);if(!isFinite(a1)||!isFinite(b1)){alert('Add valid latitude and longitude');return}fwAdminSet(p.id,{lat:a1,lng:b1}).then(function(){alert('Saved')}).catch(function(){alert('Failed')})};var un=document.createElement('button');un.className='alt';un.textContent='Unverify';un.style.marginLeft='8px';un.onclick=function(){fwAdminSet(p.id,{status:'pending'}).then(function(){d.remove()}).catch(function(){alert('Failed')})};d.appendChild(sv);d.appendChild(un);box.appendChild(d)})}).catch(function(){box.textContent='Could not load.'})}
 function book(b){b.textContent=T[L].booked;b.disabled=true}
 function enterApp(){document.getElementById('login').classList.remove('on');document.getElementById('nav').style.display='flex';document.getElementById('pl').style.display='inline';go('home')}
 function showLogin(){ids.forEach(function(x){document.getElementById(x).classList.remove('on')});document.getElementById('login').classList.add('on');document.getElementById('nav').style.display='none';document.getElementById('pl').style.display='none'}
